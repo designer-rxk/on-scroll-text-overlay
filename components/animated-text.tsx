@@ -23,14 +23,12 @@ export function AnimatedText({
   className = "",
   startOffset,
   endOffset,
-  transitionDuration = 100,
   minThreshold,
   maxThreshold,
 }: AnimatedTextProps) {
   const { textRef, getOverlayStyles } = useScrollTextAnimation({
     startOffset,
     endOffset,
-    transitionDuration,
     minThreshold,
     maxThreshold,
   })
@@ -44,7 +42,8 @@ export function AnimatedText({
 
       {/* Overlay text with animation - optimized for performance */}
       <p
-        className={`absolute inset-0 ${overlayColor} ${className}`}
+        aria-hidden="true"
+        className={`absolute inset-0 ${overlayColor} ${className} pointer-events-none`}
         style={{
           ...getOverlayStyles(),
           backfaceVisibility: "hidden", // Prevent flickering

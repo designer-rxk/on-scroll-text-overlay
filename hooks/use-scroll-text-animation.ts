@@ -7,8 +7,6 @@ interface UseScrollTextAnimationOptions {
   startOffset?: number;
   /** When to end the animation (negative values mean element can scroll past viewport) */
   endOffset?: number;
-  /** Transition duration in milliseconds */
-  transitionDuration?: number;
   /** Minimum scroll threshold (0-1) - animation won't start until this much of viewport is scrolled */
   minThreshold?: number;
   /** Maximum scroll threshold (0-1) - animation will be complete by this point */
@@ -21,12 +19,11 @@ export function useScrollTextAnimation(
   const {
     startOffset = 0.8,
     endOffset = 0.2,
-    transitionDuration = 75,
     minThreshold = 0,
     maxThreshold = 1,
   } = options;
 
-  const textRef = useRef<HTMLElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [lineHeight, setLineHeight] = useState(0);
   const [totalLines, setTotalLines] = useState(0);
@@ -197,9 +194,6 @@ export function useScrollTextAnimation(
     clipPath: getClipPath(),
     willChange: "clip-path",
     transform: "translateZ(0)", // Force hardware acceleration
-    transitionDuration: `${transitionDuration}ms`,
-    transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)", // Even smoother easing
-    transitionProperty: "clip-path",
   });
 
   return {
