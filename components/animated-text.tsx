@@ -10,6 +10,10 @@ interface AnimatedTextProps {
   startOffset?: number
   endOffset?: number
   transitionDuration?: number
+  /** Minimum scroll threshold (0-1) - animation won't start until this much of viewport is scrolled */
+  minThreshold?: number
+  /** Maximum scroll threshold (0-1) - animation will be complete by this point */
+  maxThreshold?: number
 }
 
 export function AnimatedText({
@@ -19,12 +23,16 @@ export function AnimatedText({
   className = "",
   startOffset,
   endOffset,
-  transitionDuration,
+  transitionDuration = 100,
+  minThreshold,
+  maxThreshold,
 }: AnimatedTextProps) {
   const { textRef, getOverlayStyles } = useScrollTextAnimation({
     startOffset,
     endOffset,
     transitionDuration,
+    minThreshold,
+    maxThreshold,
   })
 
   return (
@@ -34,8 +42,15 @@ export function AnimatedText({
         {children}
       </p>
 
-      {/* Overlay text with animation */}
-      <p className={`absolute inset-0 ${overlayColor} ${className}`} style={getOverlayStyles()}>
+      {/* Overlay text with animation - optimized for performance */}
+      <p
+        className={`absolute inset-0 ${overlayColor} ${className}`}
+        style={{
+          ...getOverlayStyles(),
+          backfaceVisibility: "hidden", // Prevent flickering
+          perspective: "1000px", // Better 3D rendering
+        }}
+      >
         {children}
       </p>
     </div>
