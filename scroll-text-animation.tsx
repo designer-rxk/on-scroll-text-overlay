@@ -75,10 +75,6 @@ export default function ScrollTextAnimation() {
 
       {/* Debug info */}
       <div className="fixed top-4 right-4 bg-gray-800 text-white p-4 rounded-lg">
-        <p className="text-sm">
-          Page Scroll:{" "}
-          {Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100)}%
-        </p>
         <p className="text-sm">Animation Progress: {Math.round(scrollProgress * 100)}%</p>
         <p className="text-sm">Current Line: {Math.round(currentLine * 10) / 10}</p>
         <p className="text-sm">Total Lines: {totalLines}</p>
